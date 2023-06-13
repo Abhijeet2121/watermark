@@ -14,6 +14,7 @@ class ImageEditor:
         self.font_type = None 
         self.text_color = None
         self.text_position = None
+        self.image_label = None
 
     def upload_image(self):
         file_type = [('PNG FILE', '*.png'), ('JPG FILE', '*.jpg')]
@@ -24,10 +25,12 @@ class ImageEditor:
             image = image.resize((500, 500))
             image = ImageTk.PhotoImage(image)
 
-            e1 = Label(window)
-            e1.grid(row=0, column=3, padx=20, pady=10, rowspan=10)
-            e1.image = image
-            e1.configure(image=image)
+            
+            self.image_label = Label(window) 
+            self.image_label.grid(row=0, column=3, padx=20, pady=10, rowspan=10)
+            self.image_label.image = image
+            self.image_label.configure(image=image)
+            self.image_label.image = image
 
     def choose_color(self):
         color = colorchooser.askcolor(title="Choose Text Color")
@@ -87,10 +90,24 @@ class ImageEditor:
         image = image.resize((500, 500))
         image = ImageTk.PhotoImage(image)
 
-        e1 = Label(window)
-        e1.grid(row=0, column=3, padx=20, pady=20, rowspan=10)
-        e1.image = image
-        e1.configure(image=image)
+        self.image_label = Label(window) 
+        self.image_label.grid(row=0, column=3, padx=20, pady=10, rowspan=10)
+        self.image_label.image = image
+        self.image_label.configure(image=image)
+        self.image_label.image = image
+
+        # self.save_image(image)
+
+    def save_image(self):
+        if not self.image_path:
+            print("Please Upload a image frist.")
+            return
+
+        image = Image.open(self.image_path)
+        file_type = [('PNG FILE', '*.png'), ('JPG FILE', '*.jpg')]
+        save_path = filedialog.asksaveasfilename(defaultextension='.png', filetypes=file_type)
+        if save_path:
+            image.save(save_path)
 
 window = tk.Tk()
 window.geometry("1400x900")
@@ -106,7 +123,7 @@ editor.text_entry = Entry(window, width=20)
 editor.text_entry.grid(row=1, column=1, padx=20, pady=10, sticky='w')
 
 font_label = Label(window, text='Font Size', width=20, anchor='w').grid(row=2, column=0, padx=20, pady=10, sticky='w')
-font_size_slider = Scale(window, from_=8, to=300, orient=HORIZONTAL, command=editor.update_font_size)
+font_size_slider = Scale(window, from_=8, to=300, orient=HORIZONTAL,length=200, command=editor.update_font_size)
 font_size_slider.set(editor.font_size)
 font_size_slider.grid(row=2, column=1, padx=20, pady=10, sticky='w')
 
@@ -138,5 +155,8 @@ for i , radio in enumerate(text_pos_radio):
 
 text_button = Button(window, text="Add Text", width=20, command=editor.add_text)
 text_button.grid(row=10, column=1, padx=20, pady=10, sticky='w')
+
+save_image = Button(window, text="Save", width=20, command= editor.save_image)
+save_image.grid(row=11, column=1, padx=20, pady=10, sticky='w')
 
 window.mainloop()
