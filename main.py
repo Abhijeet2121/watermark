@@ -25,7 +25,7 @@ class ImageEditor:
             image = ImageTk.PhotoImage(image)
 
             e1 = Label(window)
-            e1.grid(row =1, column=2, padx=20, pady=10)
+            e1.grid(row=0, column=3, padx=20, pady=10, rowspan=10)
             e1.image = image
             e1.configure(image=image)
 
@@ -88,12 +88,12 @@ class ImageEditor:
         image = ImageTk.PhotoImage(image)
 
         e1 = Label(window)
-        e1.grid(row=1, column=2, padx=20, pady=20)
+        e1.grid(row=0, column=3, padx=20, pady=20, rowspan=10)
         e1.image = image
         e1.configure(image=image)
 
 window = tk.Tk()
-window.geometry("900x900")
+window.geometry("1400x900")
 window.title("WaterMarker")
 editor = ImageEditor()
 
@@ -106,7 +106,7 @@ editor.text_entry = Entry(window, width=20)
 editor.text_entry.grid(row=1, column=1, padx=20, pady=10, sticky='w')
 
 font_label = Label(window, text='Font Size', width=20, anchor='w').grid(row=2, column=0, padx=20, pady=10, sticky='w')
-font_size_slider = Scale(window, from_=8, to=72, orient=HORIZONTAL, command=editor.update_font_size)
+font_size_slider = Scale(window, from_=8, to=300, orient=HORIZONTAL, command=editor.update_font_size)
 font_size_slider.set(editor.font_size)
 font_size_slider.grid(row=2, column=1, padx=20, pady=10, sticky='w')
 
